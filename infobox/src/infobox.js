@@ -53,6 +53,8 @@
  * @property {string} closeBoxURL The URL of the image representing the close box.
  *  Note: The default is the URL for Google's standard close box.
  *  Set this property to "" if no close box is required.
+ * @property {string} closeBoxClass A CSS class to add the close box.
+ *  The default value is boxClass + '__close'.
  * @property {Size} infoBoxClearance Minimum offset (in pixels) from the InfoBox to the
  *  map edge after an auto-pan.
  * @property {boolean} [isHidden=false] Hide the InfoBox on <tt>open</tt>.
@@ -100,6 +102,7 @@ function InfoBox(opt_opts) {
     this.closeBoxURL_ = "";
   }
   this.closeBoxTitle_ = opt_opts.closeBoxTitle || " Close ";
+  this.closeBoxClass_ = opt_opts.closeBoxclass || this.boxClass_ + '__close';
   this.infoBoxClearance_ = opt_opts.infoBoxClearance || new google.maps.Size(1, 1);
 
   if (typeof opt_opts.visible === "undefined") {
@@ -250,6 +253,7 @@ InfoBox.prototype.getCloseBoxImg_ = function () {
   if (this.closeBoxURL_ !== "") {
 
     img  = "<img";
+    img += " class='" + this.closeBoxClass_ + "'";
     img += " src='" + this.closeBoxURL_ + "'";
     img += " align=right"; // Do this because Opera chokes on style='float: right;'
     img += " title='" + this.closeBoxTitle_ + "'";
@@ -583,6 +587,10 @@ InfoBox.prototype.setOptions = function (opt_opts) {
   if (typeof opt_opts.closeBoxTitle !== "undefined") {
 
     this.closeBoxTitle_ = opt_opts.closeBoxTitle;
+  }
+  if (typeof opt_opts.closeBoxClass !== "undefined") {
+
+    this.closeBoxClass_ = opt_opts.closeBoxClass;
   }
   if (typeof opt_opts.infoBoxClearance !== "undefined") {
 
